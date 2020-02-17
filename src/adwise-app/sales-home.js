@@ -3,7 +3,7 @@ import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
  * @customElement
  * @polymer
  */
-class UserHome extends PolymerElement {
+class SalesHome extends PolymerElement {
   static get template() {
     return html`
       <style>
@@ -11,7 +11,7 @@ class UserHome extends PolymerElement {
           display: block;
         }
       </style>
-      UserHome 
+      Sales Home 
     `;
   }
   static get properties() {
@@ -20,4 +20,4 @@ class UserHome extends PolymerElement {
     };
   }
 }
-window.customElements.define('user-home', UserHome);
+window.customElements.define('sales-home', SalesHome);

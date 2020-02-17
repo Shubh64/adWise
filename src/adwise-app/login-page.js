@@ -51,8 +51,8 @@ class LoginPage extends PolymerElement {
   <ajax-call id="ajax"></ajax-call>
   <iron-form id="form">
   <form>
-  <paper-input id="mobileNumber" required allowed-pattern=[0-9] minlength="10" maxlength="10" label="Enter Mobile Number"></paper-input>
-  <paper-input id="password"  required type="password" label="Password"></paper-input>
+  <paper-input id="mobileNumber" auto-validate required char-counter allowed-pattern=[0-9] minlength="10" error-message="Mobile No. Should be 10 digits" maxlength="10" label="Enter Mobile Number"></paper-input>
+  <paper-input id="password" auto-validate minlength="8" required type="password" label="Password"></paper-input>
   <span>
   <paper-button on-click="_signIn" raised id="loginBtn">LogIn</paper-button></span>
   </form>
@@ -73,7 +73,7 @@ class LoginPage extends PolymerElement {
   ready()
   {
     super.ready();
-    this.addEventListener('login-status', (e) => this._loginStatus(e))
+    this.addEventListener('ajax-response', (e) => this._loginStatus(e))
   }
   /**
    * 
@@ -82,12 +82,11 @@ class LoginPage extends PolymerElement {
    * get the user details from the database
    */
   _signIn(){
-    this.$.form.validate();
-  const mobileNumber = this.$.mobileNumber.value;
-  const password=this.$.password.value;
-   if(mobileNumber.length==10&&password.length>=8){
+   if(this.$.form.validate()){
+    const mobileNumber = this.$.mobileNumber.value;
+    const password=this.$.password.value;
     let postObj={mobileNumber,password}
-     this.$.ajax._makeAjaxCall('post',`http://10.117.189.176:9090/forxtransfer/customers/login`,postObj,'login')  
+    //  this.$.ajax._makeAjaxCall('post',`http://10.117.189.176:9090/forxtransfer/customers/login`,postObj,'ajaxResponse')  
     }
     else{
       this.message='Enter Valid Credential'
@@ -110,30 +109,10 @@ class LoginPage extends PolymerElement {
       window.history.pushState({}, null, '#/admin-home');
       window.dispatchEvent(new CustomEvent('location-changed'));
   }
-  if(role=='Salesman'){
+     if(role=='Salesman'){
     window.history.pushState({}, null, '#/sales-home');
     window.dispatchEvent(new CustomEvent('location-changed'));
   }
 }
-  /**
-   * is handle carousel effect on the rendering of login page
-   */
-  connectedCallback(){
-    super.connectedCallback();
-    let currentImage = 0;
-    let images = [
-      "url(../../images/carousal2.jpg)",
-      "url(../../images/carousal1.jpg)",
-      "url(../../images/carousal3.jpg)"
-    ];
-    let nextImage = () => {
-      currentImage = (currentImage + 1) % images.length;
-      this.shadowRoot.host.style.background = images[currentImage];
-      this.shadowRoot.host.style.backgroundSize = 'cover';
-      setTimeout(nextImage, 5000)
-    }
-      nextImage();
-  }
 }
-
 window.customElements.define('login-page', LoginPage);
