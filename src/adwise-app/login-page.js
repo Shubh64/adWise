@@ -115,25 +115,5 @@ class LoginPage extends PolymerElement {
     window.dispatchEvent(new CustomEvent('location-changed'));
   }
 }
-  /**
-   * is handle carousel effect on the rendering of login page
-   */
-  connectedCallback(){
-    super.connectedCallback();
-    let currentImage = 0;
-    let images = [
-      "url(../../images/carousal2.jpg)",
-      "url(../../images/carousal1.jpg)",
-      "url(../../images/carousal3.jpg)"
-    ];
-    let nextImage = () => {
-      currentImage = (currentImage + 1) % images.length;
-      this.shadowRoot.host.style.background = images[currentImage];
-      this.shadowRoot.host.style.backgroundSize = 'cover';
-      setTimeout(nextImage, 5000)
-    }
-      nextImage();
-  }
 }
-
 window.customElements.define('login-page', LoginPage);

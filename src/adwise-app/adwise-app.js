@@ -154,7 +154,7 @@ class AdwiseApp extends PolymerElement {
         type: Array,
         value: function () {
           return [{ label: 'sold-slots', route: 'sold-slots' },
-          { label: 'user login', route: 'login' }, { label: 'user home', route: 'sales-home' },
+          { label: 'user login', route: 'login' }, { label: 'sales-home', route: 'sales-home' },
           { label: 'admin home', route: 'admin-home' }, { label: 'added-slots', route: 'added-slots' }]
         }
       }
