@@ -1,4 +1,5 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
+import './shared-table.js';
 /**
  * @customElement
  * @polymer
@@ -11,12 +12,29 @@ class AdminHome extends PolymerElement {
           display: block;
         }
       </style>
-      AdminHome 
+      <shared-table headings={{headings}} rows={{rows}}></shared-table>
     `;
   }
   static get properties() {
     return {
-
+      headings:{
+        type:Array,
+        value:['Name','Class','RollNo']
+      },
+      rows:{
+        type:Array,
+        value:[
+          {
+            data:['1','2','3']
+          },
+          {
+            data:['1','2','3']
+          },
+          {
+            data:['1','2','3']
+          }
+        ]
+      }
     };
   }
 }
