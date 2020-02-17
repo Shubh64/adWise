@@ -30,7 +30,7 @@ return html`
         color: white;
         font-weight: bolder;
         text-align: left;
-        background-color: red;
+        background-color: blue;
     }
 </style>
 <div class="container">
