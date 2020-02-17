@@ -1,24 +1,24 @@
-import { html, PolymerElement } from './node_modules/@polymer/polymer/polymer-element.js.js';
-import './node_modules/@polymer/app-route/app-route.js.js';
-import './node_modules/@polymer/app-route/app-location.js.js';
-import './node_modules/@polymer/iron-pages/iron-pages.js.js';
-import './node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js.js';
-import './node_modules/@polymer/app-layout/app-header/app-header.js.js';
-import './node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js.js';
-import './node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js.js';
-import './node_modules/@polymer/app-layout/app-drawer/app-drawer.js.js';
-import './node_modules/@polymer/app-layout/app-scroll-effects/effects/waterfall.js.js';
-import './node_modules/@polymer/iron-media-query/iron-media-query.js.js';
-import './node_modules/@polymer/paper-item/paper-item.js.js';
-import './node_modules/@polymer/iron-flex-layout/iron-flex-layout.js.js';
-import './node_modules/@polymer/paper-listbox/paper-listbox.js.js';
-import './node_modules/@polymer/iron-selector/iron-selector.js.js';
-import './node_modules/@polymer/iron-icon/iron-icon';
-import './node_modules/@polymer/paper-icon-button/paper-icon-button.js.js';
-import './node_modules/@polymer/iron-icons/iron-icons.js.js';
-import './node_modules/@polymer/polymer/lib/elements/dom-repeat.js.js';
-import { setRootPath,setPassiveTouchGestures } from './node_modules/@polymer/polymer/lib/utils/settings.js.js';
-import './node_modules/@polymer/font-roboto/roboto.js.js';
+import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
+import '@polymer/app-route/app-route.js';
+import '@polymer/app-route/app-location.js';
+import '@polymer/iron-pages/iron-pages.js';
+import '@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
+import '@polymer/app-layout/app-header/app-header.js';
+import '@polymer/app-layout/app-toolbar/app-toolbar.js';
+import '@polymer/app-layout/app-header-layout/app-header-layout.js';
+import '@polymer/app-layout/app-drawer/app-drawer.js';
+import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
+import '@polymer/iron-media-query/iron-media-query.js';
+import '@polymer/paper-item/paper-item.js';
+import '@polymer/iron-flex-layout/iron-flex-layout.js';
+import '@polymer/paper-listbox/paper-listbox.js';
+import '@polymer/iron-selector/iron-selector.js';
+import '@polymer/iron-icon/iron-icon.js';
+import '@polymer/paper-icon-button/paper-icon-button.js';
+import '@polymer/iron-icons/iron-icons.js';
+import '@polymer/polymer/lib/elements/dom-repeat.js';
+import { setRootPath, setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
+import '@polymer/font-roboto/roboto.js';
 /**
  * @customElement
  * @polymer
@@ -112,7 +112,7 @@ class AdwiseApp extends PolymerElement {
       <app-toolbar class="heading">
         <paper-icon-button icon="menu" aria-label="Menu" drawer-toggle hidden$="{{wideLayout}}">
         </paper-icon-button>
-        <a href="#[[rootPath]]login" id="home"><span class="heading-title">Onbuddy</span></a>
+        <a href="#[[rootPath]]login" id="home"><span class="heading-title">Ad-Wise</span></a>
       </app-toolbar>
         <!-- Nav on desktop: tabs -->
         <nav class="tabs-bar" hidden$="{{!wideLayout}}">
@@ -128,10 +128,9 @@ class AdwiseApp extends PolymerElement {
         <donation-details id="donationDetails" name="donation-details"></donation-details>
         <login-page name="login"></login-page>
         <admin-home name="admin-home"></admin-home>
-        <lms-app name="lms"></lms-app>
-        <tsms-app name="tsms"></tsms-app>
-        <user-home name="user-home"></user-home>
-        <user-register name="user-register"></user-register>
+        <sales-home name="sales-home"></sales-home>
+        <sold-slots name="sold-slots"></sold-slots>
+        <added-slots name="added-slots"></added-slots>
         <error-view name="error404"></error-view>
       </iron-pages> 
     </app-header>
@@ -154,61 +153,59 @@ class AdwiseApp extends PolymerElement {
       items: {
         type: Array,
         value: function () {
-          return [{label:'Time Sheet',route:'tsms'},{label:'leave management',route:'lms'},
-          {label:'user login',route:'login'},{label:'user home',route:'user-home'},
-          {label:'admin home',route:'admin-home'},{label:'user register',route:'user-register'}]
+          return [{ label: 'sold-slots', route: 'sold-slots' },
+          { label: 'user login', route: 'login' }, { label: 'user home', route: 'sales-home' },
+          { label: 'admin home', route: 'admin-home' }, { label: 'added-slots', route: 'added-slots' }]
         }
       }
     };
   }
-   /**
-  *simple observer which is triggered when page property is changed
-  *@param {String} newPage value of changed page 
+  /**
+ *simple observer which is triggered when page property is changed
+ *@param {String} newPage value of changed page 
+ **/
+  _pageChanged(newPage) {
+    console.log(newPage)
+    //Depending upon the changed page it lazy-imports the url
+    switch (newPage) {
+      case 'login': import('./login-page.js')
+        break;
+      case 'admin-home': import('./admin-home.js')
+        break;
+      case 'sales-home': import('./sales-home.js')
+        break;
+      case 'added-slots': import('./added-slots.js')
+        break;
+      case 'sold-slots': import('./sold-slots.js')
+        break;
+      default: import('./error-page.js')
+        break;
+    }
+  }
+  /** Hence complex triggers is required to define to observe changes on first time page load.
   **/
- _pageChanged(newPage) {
-  console.log(newPage)
-  //Depending upon the changed page it lazy-imports the url
-  switch (newPage) {
-    case 'login': import('./login-page.js.js')
-      break;
-    case 'admin-home': import('./admin-home.js.js')
-      break;
-    case 'lms': import('./lms.js.js')
-      break;
-      case 'tsms': import('./tsms.js.js')
-      break;
-    case 'user-home': import('./user-home.js.js')
-      break;
-    case 'user-register': import('./user-register.js.js')
-      break;
-    default: import('./error-view.js.js')
-      break;
+  static get observers() {
+    return ['_routerChanged(routeData.page)']
   }
-}
-/** Hence complex triggers is required to define to observe changes on first time page load.
-**/
-static get observers() {
-  return ['_routerChanged(routeData.page)']
-}
-/**
- * @author: Abhinav
- *@param {String} page Value of new page
-**/
-_routerChanged(page) {
-  console.log(page)
-  this.page = page || 'udaan-schemes';
-}
-/**
- *onLayoutChange() is a simple observer which is triggered when wideLayout Property is changed.
- It closes the drawer if the layout is wider than 600px
- *@param {Boolean} wide tells that layout is wide or not? it's a value in true or false
-**/
-onLayoutChange(wide) {
-  var drawer = this.$.drawer;
-  if (wide && drawer.opened) {
-    drawer.opened = false;
+  /**
+   * @author: Abhinav
+   *@param {String} page Value of new page
+  **/
+  _routerChanged(page) {
+    console.log(page)
+    this.page = page || 'login';
   }
-}
+  /**
+   *onLayoutChange() is a simple observer which is triggered when wideLayout Property is changed.
+   It closes the drawer if the layout is wider than 600px
+   *@param {Boolean} wide tells that layout is wide or not? it's a value in true or false
+  **/
+  onLayoutChange(wide) {
+    var drawer = this.$.drawer;
+    if (wide && drawer.opened) {
+      drawer.opened = false;
+    }
+  }
 }
 
 window.customElements.define('adwise-app', AdwiseApp);
